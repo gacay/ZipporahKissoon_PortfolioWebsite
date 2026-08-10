@@ -1,0 +1,6 @@
+{
+  "name": "Zipporah Kissoon",
+  "description": "A single-page cinematic hero section for Zipporah Kissoon with fullscreen background video, glassmorphic navigation, and elegant typography.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
