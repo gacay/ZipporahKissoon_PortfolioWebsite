@@ -19,6 +19,32 @@ import {
   ChevronRight
 } from "lucide-react";
 import aboutLocalImage from "./assets/about.jpg";
+import landingPageVideo from "./assets/LandingPage.mp4";
+import hca1 from "./assets/HCA1.JPG";
+import hca2 from "./assets/HCA2.JPG";
+import hca3 from "./assets/HCA3.JPG";
+import goodreads1 from "./assets/Goodreads1.JPG";
+import goodreads2 from "./assets/Goodreads2.JPG";
+import goodreads3 from "./assets/Goodreads3.JPG";
+import goodreads4 from "./assets/Goodreads4.JPG";
+import berries1 from "./assets/Berries1.JPG";
+import berries2 from "./assets/Berries2.JPG";
+import berries3 from "./assets/Berries3.JPG";
+import berries4 from "./assets/Berries4.JPG";
+import berries5 from "./assets/Berries5.JPG";
+import ikaria1 from "./assets/Ikaria1.JPG";
+import ikaria2 from "./assets/Ikaria2.JPG";
+import ikaria3 from "./assets/Ikaria3.JPG";
+import gratis1 from "./assets/Gratis1.JPG";
+import gratis2 from "./assets/Gratis2.JPG";
+import gratis3 from "./assets/Gratis3.JPG";
+import sanctum1 from "./assets/Sanctum1.JPG";
+import sanctum2 from "./assets/Sanctum2.JPG";
+import sanctum3 from "./assets/Sanctum3.JPG";
+import sanctum4 from "./assets/Sanctum4.JPG";
+import sanctum5 from "./assets/Sanctum5.JPG";
+import sanctum6 from "./assets/Sanctum6.JPG";
+import sanctum7 from "./assets/Sanctum7.JPG";
 
 export default function App() {
   const [activeLink, setActiveLink] = useState("Home");
@@ -54,6 +80,23 @@ export default function App() {
     }, 60);
     return () => clearTimeout(timer);
   }, [currentPage]);
+
+  // Control the landing video behavior by section: loop on Home, replay from the start on Projects/About and on pagination changes
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (activeLink === "Home") {
+      video.loop = true;
+      video.currentTime = 0;
+      void video.play().catch(() => undefined);
+      return;
+    }
+
+    video.loop = false;
+    video.currentTime = 0;
+    void video.play().catch(() => undefined);
+  }, [activeLink, currentPage]);
 
   // Architectural AutoCAD Cursor Refs (Direct DOM updates for 0ms lag)
   const cursorContainerRef = useRef<HTMLDivElement | null>(null);
@@ -142,6 +185,16 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleVideoTimeUpdate = () => {
+    const video = videoRef.current;
+    if (!video || activeLink === "Home") return;
+
+    if (video.currentTime >= 5) {
+      video.pause();
+      video.currentTime = 5;
+    }
+  };
+
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim() || !message.trim()) return;
@@ -175,9 +228,13 @@ export default function App() {
       award: "Master Project Award: Creative Risk Taking (2025)",
       category: "Research & Experiential Spatial Design",
       images: [
-        { src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80", caption: "Sanctum Experiential Spatial Model & Light Study" },
-        { src: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80", caption: "Sacred Motifs & Stained Glass Communion Lounge Elevation" },
-        { src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80", caption: "Attention Restoration Spatial Layout & Floral Column Details" }
+        { src: sanctum1, caption: "Sanctum Experiential Spatial Model & Light Study" },
+        { src: sanctum2, caption: "Sacred Motifs & Stained Glass Communion Lounge Elevation" },
+        { src: sanctum3, caption: "Attention Restoration Spatial Layout & Floral Column Details" },
+        { src: sanctum4, caption: "Sanctum Interior Material Study" },
+        { src: sanctum5, caption: "Communion Lounge Spatial Composition" },
+        { src: sanctum6, caption: "Floral Column Detail & Ritual Experience" },
+        { src: sanctum7, caption: "Sanctum Final Presentation Rendering" }
       ],
       paragraphs: [
         "Sanctum was created as a solution to the question: 'Using Social Cognitive and Attention Restoration Theories, how can loneliness and social isolation in tech dependent individuals be addressed through spatial strategies derived from sacred and ritual architecture?' In answering this question, the idea to create a place of worship and religious exchange transpired, because churches, mosques, temples, etc. are inherently places of gathering.",
@@ -193,9 +250,9 @@ export default function App() {
       award: "Healthcare Studio Expansion Project",
       category: "Healthcare & Emergency Department Design",
       images: [
-        { src: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=80", caption: "HCA Aventura Emergency Reception & Waiting Lounge" },
-        { src: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1200&q=80", caption: "Reception Desk Detail with Travertine White Porcelain Veneer" },
-        { src: "https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=1200&q=80", caption: "Patient Flow Wayfinding & Clinical Waiting Area" }
+        { src: hca1, caption: "HCA Aventura Emergency Reception & Waiting Lounge" },
+        { src: hca2, caption: "Reception Desk Detail with Travertine White Porcelain Veneer" },
+        { src: hca3, caption: "Patient Flow Wayfinding & Clinical Waiting Area" }
       ],
       paragraphs: [
         "This reception space was designed to establish a calm, efficient first point of contact for patients while reinforcing HCA’s emphasis on clarity, care, and professionalism. The layout prioritizes intuitive wayfinding and clear sightlines to reduce stress upon arrival, while material selections and lighting were chosen to create a welcoming yet clinical-appropriate environment.",
@@ -211,9 +268,10 @@ export default function App() {
       award: "Corporate Workplace Design Studio",
       category: "Commercial & Corporate Interiors",
       images: [
-        { src: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80", caption: "Goodreads Company Library & Collaborative Workplace" },
-        { src: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80", caption: "Group Collaboration Lounge with Exposed Industrial Brickwork" },
-        { src: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1200&q=80", caption: "Flexible Work Stations & Linear Spatial Layout" }
+        { src: goodreads1, caption: "Goodreads Company Library & Collaborative Workplace" },
+        { src: goodreads2, caption: "Group Collaboration Lounge with Exposed Industrial Brickwork" },
+        { src: goodreads3, caption: "Flexible Work Stations & Linear Spatial Layout" },
+        { src: goodreads4, caption: "Additional Goodreads Workplace Detail" }
       ],
       paragraphs: [
         "Goodreads strives to create an environment where users have the power to choose how they would like to work. From an open collaborative space to their own company library, this workplace gives users the option to develop their own space.",
@@ -229,9 +287,11 @@ export default function App() {
       award: "Hospitality Design Studio",
       category: "Hospitality & Art Deco Interiors",
       images: [
-        { src: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80", caption: "The Berries Hotel Mezzanine & Sunberry Jazz Club" },
-        { src: "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=80", caption: "Sunberry Bar & Curvilinear Art Deco Interior Elevation" },
-        { src: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1200&q=80", caption: "The Juniper Club Speakeasy Entrance & Velvet Lounge" }
+        { src: berries1, caption: "The Berries Hotel Mezzanine & Sunberry Jazz Club" },
+        { src: berries2, caption: "Sunberry Bar & Curvilinear Art Deco Interior Elevation" },
+        { src: berries3, caption: "The Juniper Club Speakeasy Entrance & Velvet Lounge" },
+        { src: berries4, caption: "Additional Hotel Lounge Detail" },
+        { src: berries5, caption: "Signature Hospitality Interior Rendering" }
       ],
       paragraphs: [
         "The hotel utilizes the symmetrical and curvilinear patterns of the Art Deco Movement of the 1920s. These patterns are reflected by the forms of Le Erté’s 'The Marriage Dance', a famous 1920s print that is defined by its symmetry along its vertical axis, curvilinear circulation, and two distinct forms.",
@@ -247,9 +307,9 @@ export default function App() {
       award: "Healthcare & Rehabilitation Design Studio",
       category: "Rehabilitative & Wellness Architecture",
       images: [
-        { src: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1200&q=80", caption: "Ikaria Rehabilitation Gym & Natural Light Courtyard" },
-        { src: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=1200&q=80", caption: "Neuropathic Tissue PARTI Spatial Flow & Circular Arches" },
-        { src: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80", caption: "Mediterranean Terracotta & Natural Stone Materiality" }
+        { src: ikaria1, caption: "Ikaria Rehabilitation Gym & Natural Light Courtyard" },
+        { src: ikaria2, caption: "Neuropathic Tissue PARTI Spatial Flow & Circular Arches" },
+        { src: ikaria3, caption: "Mediterranean Terracotta & Natural Stone Materiality" }
       ],
       paragraphs: [
         "Inspired by Newman’s idea of health as expanding consciousness and King’s framework of interconnected systems, the material composition reflects flow, awareness, and unity. The curved circulation paths converge at a shared center.",
@@ -265,9 +325,9 @@ export default function App() {
       award: "Festival of the Trees Merit Scholarship 2024 Winner: G1 Retail",
       category: "Retail & Cultural Interiors",
       images: [
-        { src: "https://images.unsplash.com/photo-1555636222-cae831e670b3?auto=format&fit=crop&w=1200&q=80", caption: "Gratis Lespri Retail Storefront & Custom Display Pods" },
-        { src: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80", caption: "Botanica Medicine Workshop & Communal Cafe Lounge" },
-        { src: "https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1200&q=80", caption: "Préfète Duffaut Inspired Curvilinear Display & Organic Wood Pods" }
+        { src: gratis1, caption: "Gratis Lespri Retail Storefront & Custom Display Pods" },
+        { src: gratis2, caption: "Botanica Medicine Workshop & Communal Cafe Lounge" },
+        { src: gratis3, caption: "Préfète Duffaut Inspired Curvilinear Display & Organic Wood Pods" }
       ],
       paragraphs: [
         "In an effort to negate the effects of gentrification within the Miami Design District, Gratis Lespri seeks to evoke the cultural diversity of Haiti through its deeply devout spiritual roots in botanicas. This sense of community is fostered through medicine workshops, a cafe, and lounge areas that nurture a communal response.",
@@ -320,16 +380,25 @@ export default function App() {
       <div className="absolute inset-0 w-full h-full overflow-hidden z-0">
         <video
           ref={videoRef}
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_083109_283f3553-e28f-428b-a723-d639c617eb2b.mp4"
+          src={landingPageVideo}
           autoPlay
-          loop
           muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          onTimeUpdate={handleVideoTimeUpdate}
+          onEnded={() => {
+            const video = videoRef.current;
+            if (video) {
+              video.pause();
+              if (Number.isFinite(video.duration) && video.duration > 0) {
+                video.currentTime = 5;
+              }
+            }
+          }}
         />
-        {/* Cinematic dark overlay to enhance text legibility */}
-        <div className="absolute inset-0 bg-black/50 mix-blend-multiply z-0 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-background/60 z-0 pointer-events-none" />
+        {/* Warm beige overlay to enhance text legibility */}
+        <div className="absolute inset-0 bg-[#d9c7a8]/55 mix-blend-multiply z-0 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#3d2f22] via-[#6f5a3d]/35 to-[#d8c4a0]/20 z-0 pointer-events-none" />
       </div>
 
       {/* Navigation Bar */}
@@ -357,7 +426,7 @@ export default function App() {
                   id={`nav-link-${link.toLowerCase().replace(" ", "-")}`}
                   onClick={() => setActiveLink(link)}
                   className={`text-sm tracking-wide transition-all duration-300 relative py-1 cursor-none ${
-                    isActive ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"
+                    isActive ? "text-foreground font-medium" : "text-[#e4cda8] hover:text-[#fdf3e6]"
                   }`}
                 >
                   {link}
@@ -421,7 +490,7 @@ export default function App() {
                       setIsMobileMenuOpen(false);
                     }}
                     className={`text-left text-base py-2 px-3 rounded-xl transition-all cursor-none ${
-                      isActive ? "bg-white/[0.08] text-foreground" : "text-muted-foreground hover:text-foreground"
+                      isActive ? "bg-white/[0.08] text-foreground" : "text-[#e4cda8] hover:text-[#fdf3e6]"
                     }`}
                   >
                     {link}
@@ -462,14 +531,14 @@ export default function App() {
                 className="text-5xl sm:text-7xl md:text-8xl leading-[0.95] tracking-[-2.46px] max-w-7xl font-normal text-foreground animate-fade-rise select-none"
                 style={{ fontFamily: "'Instrument Serif', serif" }}
               >
-                Where <em className="not-italic text-muted-foreground">spaces</em> rise <br className="hidden sm:block" />
-                <em className="not-italic text-muted-foreground">through storytelling.</em>
+                Where <em className="not-italic text-[#cda97d]">spaces</em> rise <br className="hidden sm:block" />
+                <em className="not-italic text-[#cda97d]">through storytelling.</em>
               </h1>
 
               {/* Narrative Subtext */}
               <p
                 id="hero-subtext"
-                className="text-muted-foreground text-base sm:text-lg max-w-2xl mt-8 leading-relaxed animate-fade-rise-delay font-sans font-normal"
+                className="text-[#FAF0E6] text-base sm:text-lg max-w-2xl mt-8 leading-relaxed animate-fade-rise-delay font-sans font-normal"
               >
                 I craft research-driven hospitality, retail, and spatial interiors—balancing human-centered narrative with material tactile depth, ADA accessibility, and technical precision in Revit and AutoCAD.
               </p>
@@ -497,7 +566,7 @@ export default function App() {
             >
               <div ref={projectsTopRef} className="text-center max-w-3xl mx-auto scroll-mt-24">
                 <h1
-                  className="text-4xl sm:text-6xl tracking-tight font-normal text-foreground select-none"
+                  className="text-4xl sm:text-6xl tracking-tight font-normal text-[#e4cda8] select-none"
                   style={{ fontFamily: "'Instrument Serif', serif" }}
                 >
                   My Work
@@ -595,20 +664,20 @@ export default function App() {
 
                         {/* Narrative Paragraphs Column */}
                         <div className="md:col-span-7 space-y-4 text-left">
-                          <div className="inline-flex items-center gap-2 text-xs font-mono text-white/80 bg-white/[0.05] border border-white/10 px-3 py-1 rounded-full">
-                            <Award className="w-3.5 h-3.5 text-white" />
+                          <div className="inline-flex items-center gap-2 text-xs font-mono text-[#f6ebdc] bg-[#5f4632]/60 border border-[#8d6f4c]/40 px-3 py-1 rounded-full">
+                            <Award className="w-3.5 h-3.5 text-[#f6ebdc]" />
                             <span>{project.award}</span>
                           </div>
 
                           <h2
-                            className="text-3xl sm:text-4xl tracking-tight text-foreground"
+                            className="text-3xl sm:text-4xl tracking-tight text-[#e4cda8]"
                             style={{ fontFamily: "'Instrument Serif', serif" }}
                           >
                             {project.title}
                           </h2>
-                          <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider">{project.subtitle} · {project.category}</p>
+                          <p className="text-xs font-mono text-[#f6ebdc] uppercase tracking-wider">{project.subtitle} · {project.category}</p>
 
-                          <div className="space-y-3 text-muted-foreground text-xs sm:text-sm leading-relaxed font-sans pt-2">
+                          <div className="space-y-3 text-[#f6ebdc] text-xs sm:text-sm leading-relaxed font-sans pt-2">
                             {project.paragraphs.map((para, pIdx) => (
                               <p key={pIdx}>{para}</p>
                             ))}
@@ -661,7 +730,7 @@ export default function App() {
                   Lauderdale Lakes, Florida · FIU M.Int.Arch
                 </span>
                 <h1
-                  className="text-4xl sm:text-6xl tracking-tight font-normal text-foreground select-none"
+                  className="text-4xl sm:text-6xl tracking-tight font-normal text-[#e4cda8] select-none"
                   style={{ fontFamily: "'Instrument Serif', serif" }}
                 >
                   About Zipporah Kissoon
@@ -684,19 +753,19 @@ export default function App() {
                 </div>
 
                 <div className="md:col-span-7 space-y-4 text-left">
-                  <h2 className="text-3xl font-normal text-foreground" style={{ fontFamily: "'Instrument Serif', serif" }}>
+                  <h2 className="text-3xl font-normal text-[#e4cda8]" style={{ fontFamily: "'Instrument Serif', serif" }}>
                     Hi there,
                   </h2>
 
-                  <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed font-sans">
+                  <p className="text-[#f6ebdc] text-xs sm:text-sm leading-relaxed font-sans">
                     My name is Zipporah Kissoon, but you can call me Zoe. I have recently received my Master’s in Interior Architecture from Florida International University in Miami, FL (2021 — 2026).
                   </p>
 
-                  <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed font-sans">
+                  <p className="text-[#f6ebdc] text-xs sm:text-sm leading-relaxed font-sans">
                     I’ve lived my whole life in South Florida’s rich and culturally diverse environment and I am passionate about creating areas of comfort and security in the enclosed space. This portfolio is a reflection of my time spent in the program and the skills I have learned in that time. I am glad to share my work with you.
                   </p>
 
-                  <div className="pt-3 space-y-2 border-t border-white/[0.06] text-xs font-mono text-muted-foreground">
+                  <div className="pt-3 space-y-2 border-t border-white/[0.06] text-xs font-mono text-[#f6ebdc]">
                     <p className="flex items-center gap-2">
                       <GraduationCap className="w-3.5 h-3.5 text-white/80" />
                       <span>Florida International University — M.Int.Arch (2021 — 2026)</span>
@@ -848,8 +917,8 @@ export default function App() {
       </AnimatePresence>
 
       {/* Minimalist Personal Footer */}
-      <footer className="relative z-10 w-full">
-        <div className="max-w-7xl mx-auto px-8 py-8 flex items-center justify-end text-right text-xs font-mono text-muted-foreground/70 border-t border-white/[0.04] bg-gradient-to-t from-background to-transparent">
+      <footer className="relative z-10 w-full bg-transparent">
+        <div className="max-w-7xl mx-auto px-8 py-8 flex items-center justify-end text-right text-xs font-mono text-[#f6ebdc] bg-transparent">
           Zipporah Kissoon
         </div>
       </footer>
@@ -905,7 +974,7 @@ export default function App() {
                     </div>
                     
                     <h2 
-                      className="text-4xl tracking-tight text-foreground mb-3"
+                      className="text-4xl tracking-tight text-[#e4cda8] mb-3"
                       style={{ fontFamily: "'Instrument Serif', serif" }}
                     >
                       Let's connect.

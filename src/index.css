@@ -5,29 +5,29 @@
   --font-display: "Instrument Serif", serif;
   --font-body: "Inter", sans-serif;
 
-  --color-background: hsl(201 100% 13%);
-  --color-foreground: hsl(0 0% 100%);
-  --color-muted-foreground: hsl(240 4% 66%);
-  --color-primary: hsl(0 0% 100%);
-  --color-primary-foreground: hsl(0 0% 4%);
-  --color-secondary: hsl(0 0% 10%);
-  --color-muted: hsl(0 0% 10%);
-  --color-accent: hsl(0 0% 10%);
-  --color-border: hsl(0 0% 18%);
-  --color-input: hsl(0 0% 18%);
+  --color-background: hsl(28 28% 18%);
+  --color-foreground: hsl(36 35% 94%);
+  --color-muted-foreground: #FAF0E6;
+  --color-primary: hsl(36 35% 94%);
+  --color-primary-foreground: hsl(25 35% 12%);
+  --color-secondary: hsl(30 20% 16%);
+  --color-muted: hsl(30 20% 16%);
+  --color-accent: hsl(34 22% 24%);
+  --color-border: hsl(30 20% 30%);
+  --color-input: hsl(30 20% 24%);
 }
 
 :root {
-  --background: 201 100% 13%;
-  --foreground: 0 0% 100%;
-  --muted-foreground: 240 4% 66%;
-  --primary: 0 0% 100%;
-  --primary-foreground: 0 0% 4%;
-  --secondary: 0 0% 10%;
-  --muted: 0 0% 10%;
-  --accent: 0 0% 10%;
-  --border: 0 0% 18%;
-  --input: 0 0% 18%;
+  --background: 28 28% 18%;
+  --foreground: 36 35% 94%;
+  --muted-foreground: 34 60% 92%;
+  --primary: 36 35% 94%;
+  --primary-foreground: 25 35% 12%;
+  --secondary: 30 20% 16%;
+  --muted: 30 20% 16%;
+  --accent: 34 22% 24%;
+  --border: 30 20% 30%;
+  --input: 30 20% 24%;
   
   --font-display: 'Instrument Serif', serif;
   --font-body: 'Inter', sans-serif;
