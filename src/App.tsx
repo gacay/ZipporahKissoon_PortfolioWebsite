@@ -355,14 +355,14 @@ export default function App() {
   ];
 
   return (
-    <div className={`relative w-full min-h-screen flex flex-col justify-between overflow-x-clip bg-background text-foreground select-none ${(isModalOpen || lightboxImg) ? 'cursor-auto' : 'cursor-none'}`}>
-      
+    <div className={`relative w-full min-h-screen flex flex-col justify-between overflow-x-clip bg-background text-foreground select-none cursor-auto ${(isModalOpen || lightboxImg) ? 'sm:cursor-auto' : 'sm:cursor-none'}`}>
+
       {/* ========================================================= */}
-      {/* ARCHITECTURAL AUTOCAD DRAFTING CROSSHAIR CURSOR           */}
+      {/* ARCHITECTURAL AUTOCAD DRAFTING CROSSHAIR CURSOR (desktop only) */}
       {/* ========================================================= */}
-      <div 
+      <div
         ref={cursorContainerRef}
-        className="fixed inset-0 pointer-events-none z-[100] overflow-hidden opacity-0 transition-opacity duration-150"
+        className="fixed inset-0 pointer-events-none z-[100] overflow-hidden opacity-0 transition-opacity duration-150 hidden sm:block"
       >
         {/* Horizontal Crosshair Line */}
         <div
@@ -422,10 +422,10 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-8 py-4 sm:py-5 flex items-center justify-between">
           
           {/* Logo / Personal Brand */}
-          <button 
+          <button
             id="nav-logo"
             onClick={() => setActiveLink("Home")}
-            className="text-3xl tracking-tight text-foreground select-none group flex items-center gap-1 text-left cursor-none"
+            className="text-2xl sm:text-3xl tracking-tight text-foreground select-none group flex items-center gap-1 text-left whitespace-nowrap cursor-auto sm:cursor-none"
             style={{ fontFamily: "'Instrument Serif', serif" }}
           >
             Zipporah Kissoon
@@ -441,7 +441,7 @@ export default function App() {
                   key={link}
                   id={`nav-link-${link.toLowerCase().replace(" ", "-")}`}
                   onClick={() => setActiveLink(link)}
-                  className={`text-sm tracking-wide transition-all duration-300 relative py-1 cursor-none ${
+                  className={`text-sm tracking-wide transition-all duration-300 relative py-1 whitespace-nowrap cursor-none ${
                     isActive ? "text-foreground font-medium" : "text-[#e4cda8] hover:text-[#fdf3e6]"
                   }`}
                 >
@@ -465,7 +465,7 @@ export default function App() {
             <button
               id="desktop-cta"
               onClick={() => setIsModalOpen(true)}
-              className="liquid-glass rounded-full px-6 py-2.5 text-sm font-medium text-foreground hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 shadow-lg shadow-black/10 cursor-none"
+              className="liquid-glass rounded-full px-6 py-2.5 text-sm font-medium text-foreground hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 shadow-lg shadow-black/10 whitespace-nowrap cursor-none"
             >
               Reach Me
             </button>
@@ -474,7 +474,7 @@ export default function App() {
             <button
               id="mobile-menu-toggle"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-foreground hover:bg-white/[0.08] transition-all cursor-none"
+              className="md:hidden p-2.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-foreground hover:bg-white/[0.08] transition-all cursor-pointer"
             >
               <Menu className="w-4 h-4" />
             </button>
@@ -483,18 +483,36 @@ export default function App() {
         </div>
       </header>
 
-      {/* Mobile Menu Drawer */}
+      {/* Mobile Menu Slide-Out Panel */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             id="mobile-drawer"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className="absolute top-[88px] left-4 right-4 z-20 liquid-glass rounded-3xl p-6 flex flex-col gap-4 border border-white/[0.08]"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
+            className="fixed inset-0 z-50 flex flex-col bg-background md:hidden overflow-y-auto cursor-auto"
           >
-            <div className="flex flex-col gap-3">
+            {/* Slide-Out Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08]">
+              <span
+                className="text-2xl tracking-tight text-foreground select-none whitespace-nowrap"
+                style={{ fontFamily: "'Instrument Serif', serif" }}
+              >
+                Zipporah Kissoon
+              </span>
+              <button
+                id="mobile-drawer-close"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-foreground hover:bg-white/[0.08] transition-all cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Slide-Out Nav Links */}
+            <div className="flex-1 flex flex-col items-center justify-center gap-8">
               {navLinks.map((link) => {
                 const isActive = activeLink === link;
                 return (
@@ -505,25 +523,30 @@ export default function App() {
                       setActiveLink(link);
                       setIsMobileMenuOpen(false);
                     }}
-                    className={`text-left text-base py-2 px-3 rounded-xl transition-all cursor-none ${
-                      isActive ? "bg-white/[0.08] text-foreground" : "text-[#e4cda8] hover:text-[#fdf3e6]"
+                    className={`text-3xl tracking-tight py-1 px-4 rounded-xl transition-all whitespace-nowrap cursor-pointer ${
+                      isActive ? "text-foreground font-medium" : "text-[#e4cda8] hover:text-[#fdf3e6]"
                     }`}
+                    style={{ fontFamily: "'Instrument Serif', serif" }}
                   >
                     {link}
                   </button>
                 );
               })}
             </div>
-            <button
-              id="mobile-drawer-cta"
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                setIsModalOpen(true);
-              }}
-              className="w-full text-center py-3 rounded-full bg-white text-black font-medium hover:bg-white/90 transition-all active:scale-[0.98] cursor-none"
-            >
-              Reach Me
-            </button>
+
+            {/* Slide-Out CTA */}
+            <div className="px-6 pb-10">
+              <button
+                id="mobile-drawer-cta"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsModalOpen(true);
+                }}
+                className="w-full text-center py-4 rounded-full bg-white text-black font-medium hover:bg-white/90 transition-all active:scale-[0.98] whitespace-nowrap cursor-pointer"
+              >
+                Reach Me
+              </button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -563,7 +586,7 @@ export default function App() {
               <button
                 id="hero-cta"
                 onClick={() => setActiveLink("Projects")}
-                className="liquid-glass rounded-full px-14 py-5 text-base font-medium text-foreground mt-12 hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 shadow-xl shadow-black/20 animate-fade-rise-delay-2 cursor-none"
+                className="liquid-glass rounded-full px-14 py-5 text-base font-medium text-foreground mt-12 hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 shadow-xl shadow-black/20 animate-fade-rise-delay-2 whitespace-nowrap cursor-none"
               >
                 Begin Journey
               </button>
@@ -710,7 +733,7 @@ export default function App() {
                   <button
                     onClick={() => handlePageChange(1)}
                     disabled={currentPage === 1}
-                    className="px-4 py-2 rounded-full liquid-glass border border-white/10 hover:bg-white/10 disabled:opacity-30 disabled:pointer-events-none transition-all flex items-center gap-1 cursor-pointer"
+                    className="px-4 py-2 rounded-full liquid-glass border border-white/10 hover:bg-white/10 disabled:opacity-30 disabled:pointer-events-none transition-all flex items-center gap-1 whitespace-nowrap cursor-pointer"
                   >
                     <ChevronLeft className="w-3.5 h-3.5" /> Previous
                   </button>
@@ -722,7 +745,7 @@ export default function App() {
                   <button
                     onClick={() => handlePageChange(2)}
                     disabled={currentPage === 2}
-                    className="px-4 py-2 rounded-full liquid-glass border border-white/10 hover:bg-white/10 disabled:opacity-30 disabled:pointer-events-none transition-all flex items-center gap-1 cursor-pointer"
+                    className="px-4 py-2 rounded-full liquid-glass border border-white/10 hover:bg-white/10 disabled:opacity-30 disabled:pointer-events-none transition-all flex items-center gap-1 whitespace-nowrap cursor-pointer"
                   >
                     Next <ChevronRight className="w-3.5 h-3.5" />
                   </button>
@@ -1045,7 +1068,7 @@ export default function App() {
                         id="submit-button"
                         type="submit"
                         disabled={!email.trim() || !message.trim() || submitStatus === "submitting"}
-                        className="w-full bg-white text-black hover:bg-white/90 font-medium text-sm rounded-full py-3.5 px-6 flex items-center justify-center gap-2 transition-all duration-200 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                        className="w-full bg-white text-black hover:bg-white/90 font-medium text-sm rounded-full py-3.5 px-6 flex items-center justify-center gap-2 transition-all duration-200 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed whitespace-nowrap cursor-pointer"
                       >
                         {submitStatus === "submitting" ? (
                           <span className="inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
@@ -1085,7 +1108,7 @@ export default function App() {
                     <button
                       id="success-close"
                       onClick={() => setIsModalOpen(false)}
-                      className="liquid-glass rounded-full px-8 py-3 text-sm text-foreground hover:scale-[1.03] transition-all duration-200 shadow-md cursor-pointer"
+                      className="liquid-glass rounded-full px-8 py-3 text-sm text-foreground hover:scale-[1.03] transition-all duration-200 shadow-md whitespace-nowrap cursor-pointer"
                     >
                       Return to Portfolio
                     </button>
