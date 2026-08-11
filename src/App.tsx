@@ -55,6 +55,22 @@ export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
+  // Live Miami (Eastern Time) Clock
+  const [miamiTime, setMiamiTime] = useState("");
+  useEffect(() => {
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/New_York",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+      timeZoneName: "short",
+    });
+    const updateTime = () => setMiamiTime(formatter.format(new Date()));
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   // Lightbox Zoom State with Gallery Navigation
   const [lightboxImg, setLightboxImg] = useState<{
     images: { src: string; caption: string }[];
@@ -444,7 +460,7 @@ export default function App() {
 
           {/* Right Action Controls */}
           <div className="flex items-center gap-4">
-            
+
             {/* Desktop Contact CTA Button */}
             <button
               id="desktop-cta"
@@ -919,7 +935,7 @@ export default function App() {
       {/* Minimalist Personal Footer */}
       <footer className="relative z-10 w-full bg-transparent">
         <div className="max-w-7xl mx-auto px-8 py-8 flex items-center justify-end text-right text-xs font-mono text-[#f6ebdc] bg-transparent">
-          Zipporah Kissoon
+          Zipporah Kissoon <span id="miami-time" className="select-none">&nbsp;| {miamiTime}</span>
         </div>
       </footer>
 
