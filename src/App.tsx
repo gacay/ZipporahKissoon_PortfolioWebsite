@@ -97,6 +97,11 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [currentPage]);
 
+  // Scroll to top of the page whenever the active nav section changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [activeLink]);
+
   // Control the landing video behavior by section: loop on Home, replay from the start on Projects/About and on pagination changes
   useEffect(() => {
     const video = videoRef.current;
@@ -113,6 +118,33 @@ export default function App() {
     video.currentTime = 0;
     void video.play().catch(() => undefined);
   }, [activeLink, currentPage]);
+
+  // Some mobile browsers silently block the initial autoplay attempt (e.g. before the video
+  // has buffered), leaving the native paused state visible until something retries play().
+  // Retry once data is ready, and once more on the first touch/click as a safety net.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const tryPlay = () => {
+      if (video.paused) {
+        void video.play().catch(() => undefined);
+      }
+    };
+
+    tryPlay();
+    video.addEventListener("loadeddata", tryPlay);
+    video.addEventListener("canplay", tryPlay);
+    document.addEventListener("touchstart", tryPlay, { once: true, passive: true });
+    document.addEventListener("click", tryPlay, { once: true });
+
+    return () => {
+      video.removeEventListener("loadeddata", tryPlay);
+      video.removeEventListener("canplay", tryPlay);
+      document.removeEventListener("touchstart", tryPlay);
+      document.removeEventListener("click", tryPlay);
+    };
+  }, []);
 
   // Architectural AutoCAD Cursor Refs (Direct DOM updates for 0ms lag)
   const cursorContainerRef = useRef<HTMLDivElement | null>(null);
